@@ -2,9 +2,13 @@ import { StyleSheet } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
+import { useGetHomeQuery } from '../services/public-api.service';
 import { RootTabScreenProps } from '../types';
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+  const { data, isLoading, error } = useGetHomeQuery(0);
+  console.log(data);
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab One</Text>
