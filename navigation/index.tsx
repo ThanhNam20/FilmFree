@@ -6,17 +6,17 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
-  NavigationContainer,
-  DefaultTheme,
   DarkTheme,
+  DefaultTheme,
+  NavigationContainer,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import { ColorSchemeName, Pressable } from "react-native";
-
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import ModalScreen from "../screens/ModalScreen";
+import MovieDetailScreen from "../screens/MovieDetailScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import TabFourScreen from "../screens/TabFourScreen";
 import TabOneScreen from "../screens/TabOneScreen";
@@ -63,6 +63,11 @@ function RootNavigator() {
         component={NotFoundScreen}
         options={{ title: "Oops!" }}
       />
+      <Stack.Screen
+        name="MovieDetail"
+        component={MovieDetailScreen}
+        options={{ title: "Movie Detail" }}
+      />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>
@@ -107,6 +112,7 @@ function BottomTabNavigator() {
               />
             </Pressable>
           ),
+          headerShown: true,
         })}
       />
       <BottomTab.Screen

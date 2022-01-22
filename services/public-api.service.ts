@@ -21,8 +21,10 @@ export const publicApi = createApi({
     getHome: builder.query({
       query: (page) => `/cms/app/homePage/getHome?page=${page}`,
     }),
-
+    getMovieDetail: builder.query({
+      query: ({id, category}) => `/cms/app/movieDrama/get?id=${id}&category=${category}`,
+    }),
   }),
 });
 
-export const { useGetHomeQuery } = publicApi;
+export const { useGetHomeQuery, useGetMovieDetailQuery } = publicApi;

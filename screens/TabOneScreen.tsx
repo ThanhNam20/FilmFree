@@ -1,36 +1,26 @@
-import { StyleSheet } from 'react-native';
+import React, { useState } from "react";
+import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet } from "react-native";
+import CarouselBannerComponent from "../components/carousel-banner";
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
-import { useGetHomeQuery } from '../services/public-api.service';
-import { RootTabScreenProps } from '../types';
+import EditScreenInfo from "../components/EditScreenInfo";
+import HomeComponent from "../components/home-component";
+import { Text, View } from "../components/Themed";
+import { mainColor } from "../constants/config";
+import { useGetHomeQuery } from "../services/public-api.service";
+import { RootTabScreenProps } from "../types";
 
-export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
-  const { data, isLoading, error } = useGetHomeQuery(0);
-  console.log(data);
-  
+export default function TabOneScreen({
+  navigation,
+}: RootTabScreenProps<"TabOne">) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <HomeComponent/>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+    backgroundColor: mainColor
+  }
 });

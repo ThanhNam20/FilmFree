@@ -12,9 +12,7 @@ const userSlice = createSlice({
       state.userInfo = action.payload
     }
   },
-  extraReducers: {
-    
-  }
+  extraReducers: {}
 })
 
 const { reducer, actions } = userSlice;
