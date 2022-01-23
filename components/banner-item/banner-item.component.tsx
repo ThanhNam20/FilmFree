@@ -5,10 +5,9 @@ import { ParallaxImage } from "react-native-snap-carousel";
 import { BannerItem } from "./banner-item.style";
 
 const BannerItemComponent = ({ bannerItem }: any) => {
-const navigation = useNavigation();
+  const navigation = useNavigation();
   const { item, index, parallaxProps } = bannerItem;
   const getMovieDetail = () => {
-    
     const movieDetailAddress = item.jumpAddress;
     if (!movieDetailAddress) return;
     const [_, bannerDetail, bannerCategoryId] = movieDetailAddress.split("=");
@@ -18,8 +17,12 @@ const navigation = useNavigation();
       id: bannerId,
       category: bannerCategoryId,
     };
+    console.log(movieDetailParams);
 
-    // const {data, isLoading, error} = useGetMovieDetailQuery(movieDetailParams);
+    navigation.navigate("MovieDetail", {
+      id: bannerId,
+      category: bannerCategoryId,
+    });
   };
   return (
     <Pressable onPress={getMovieDetail}>

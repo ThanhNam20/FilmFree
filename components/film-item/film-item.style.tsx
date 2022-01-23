@@ -4,7 +4,7 @@ import { SLIDER_HEIGHT,SLIDER_WIDTH } from "../../constants/config";
 const FilmItemStyle = StyleSheet.create({
   image: {
     width: SLIDER_WIDTH / 4,
-    height: SLIDER_HEIGHT/ 4,
+    height: SLIDER_HEIGHT/ 3,
     marginLeft: 10,
     aspectRatio: .7, 
     resizeMode: 'contain',

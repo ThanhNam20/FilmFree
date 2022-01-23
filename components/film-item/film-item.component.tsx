@@ -2,16 +2,13 @@ import { View, Text, Image, Pressable } from "react-native";
 import React from "react";
 import FilmItemStyle from "./film-item.style";
 import { useNavigation } from "@react-navigation/core";
+import { useGetMovieDetailQuery } from "../../services/public-api.service";
 
 const FilmItem = ({ item }: any) => {
   const navigation = useNavigation();
   const { id, title, imageUrl, category } = item;
   const getMovieDetail = () => {
-    const movieDetailParam = {
-      id,
-      category,
-    };
-    console.log(movieDetailParam);
+    navigation.navigate('MovieDetail', {id, category});
   };
   return (
     <Pressable onPress={getMovieDetail}>

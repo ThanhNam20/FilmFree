@@ -15,7 +15,7 @@ const filmSlice = createSlice({
       state.listFilmData = [...state.listFilmData, ...action.payload.data.recommendItems];
     }),
     builder.addMatcher(publicApi.endpoints.getMovieDetail.matchFulfilled,(state, action) =>{
-      state.filmDetailData = action.payload.data.recommendItems.payload.data;
+      state.filmDetailData = action.payload.data;
     })
   }
 
