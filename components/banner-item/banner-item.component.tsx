@@ -40,4 +40,4 @@ const BannerItemComponent = ({ bannerItem }: any) => {
   );
 };
 
-export default BannerItemComponent;
+export default React.memo(BannerItemComponent);

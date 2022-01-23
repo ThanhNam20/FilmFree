@@ -1,8 +1,7 @@
-import { View, Text, Image, Pressable } from "react-native";
-import React from "react";
-import FilmItemStyle from "./film-item.style";
 import { useNavigation } from "@react-navigation/core";
-import { useGetMovieDetailQuery } from "../../services/public-api.service";
+import React from "react";
+import { Image, Pressable, Text, View } from "react-native";
+import FilmItemStyle from "./film-item.style";
 
 const FilmItem = ({ item }: any) => {
   const navigation = useNavigation();
@@ -22,4 +21,4 @@ const FilmItem = ({ item }: any) => {
   );
 };
 
-export default FilmItem;
+export default React.memo(FilmItem);
