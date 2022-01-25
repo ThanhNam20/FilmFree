@@ -24,7 +24,10 @@ export const publicApi = createApi({
     getMovieDetail: builder.query({
       query: ({id, category}) => `/cms/app/movieDrama/get?id=${id}&category=${category}`,
     }),
+    getMovieMedia: builder.query({
+      query: ({category, contentId, episodeId, definition}) => `cms/app/media/previewInfo?category=${category}&contentId=${contentId}&episodeId=${episodeId}&definition=${definition}`,
+    })
   }),
 });
 
-export const { useGetHomeQuery, useGetMovieDetailQuery } = publicApi;
+export const { useGetHomeQuery, useGetMovieDetailQuery, useGetMovieMediaQuery } = publicApi;
