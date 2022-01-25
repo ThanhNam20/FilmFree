@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initState: any = {
   listFilmData: [],
-  filmDetailData: null
+  filmDetailData: null,
+  filmDetailMediaList: []
 };
 
 const filmSlice = createSlice({
@@ -16,9 +17,12 @@ const filmSlice = createSlice({
     }),
     builder.addMatcher(publicApi.endpoints.getMovieDetail.matchFulfilled,(state, action) =>{
       state.filmDetailData = action.payload.data;
+    }),
+    builder.addMatcher(publicApi.endpoints.getMovieMedia.matchFulfilled,(state, action) =>{
+      state.filmDetailMediaList = [];
+      state.filmDetailMediaList = [...state.filmDetailMediaList, action.payload.data];
     })
   }
-
 })
 
 const { reducer, actions } = filmSlice;

@@ -17,8 +17,6 @@ const BannerItemComponent = ({ bannerItem }: any) => {
       id: bannerId,
       category: bannerCategoryId,
     };
-    console.log(movieDetailParams);
-
     navigation.navigate("MovieDetail", {
       id: bannerId,
       category: bannerCategoryId,
