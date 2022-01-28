@@ -4,9 +4,9 @@ import { SLIDER_HEIGHT,SLIDER_WIDTH } from "../../constants/config";
 const FilmItemStyle = StyleSheet.create({
   image: {
     width: SLIDER_WIDTH / 4,
-    height: SLIDER_HEIGHT/ 3,
+    height: SLIDER_HEIGHT/ 3 - 10,
     marginLeft: 10,
-    aspectRatio: .7, 
+    aspectRatio: .6, 
     resizeMode: 'contain',
     borderRadius : 8,
   },
@@ -14,7 +14,7 @@ const FilmItemStyle = StyleSheet.create({
     color: '#eee',
     textAlign: 'left',
     marginLeft: 10,    
-    maxWidth: 100,
+    maxWidth: 120,
     fontSize: 12
   },
 });

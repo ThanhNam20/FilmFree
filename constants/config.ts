@@ -4,6 +4,8 @@ const tintColorLight = '#2f95dc';
 const tintColorDark = '#fff';
 
 export const mainColor = "black";
+export const forcusColor = '#D67D3E';
+export const numEpisodeEachColumns = 8;
 
 export const SLIDER_WIDTH = Dimensions.get('window').width;
 export const SLIDER_HEIGHT = Dimensions.get('window').height;

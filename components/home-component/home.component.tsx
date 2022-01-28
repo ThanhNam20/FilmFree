@@ -30,7 +30,7 @@ const HomeComponent = () => {
           }
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={true}
-          // onEndReached={getMoreHomeData}
+          onEndReached={getMoreHomeData}
           onEndReachedThreshold={0.1}
           scrollEventThrottle={150}
           ListFooterComponent={() => <ActivityIndicator />}

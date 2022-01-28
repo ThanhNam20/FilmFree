@@ -21,6 +21,10 @@ const filmSlice = createSlice({
     builder.addMatcher(publicApi.endpoints.getMovieMedia.matchFulfilled,(state, action) =>{
       state.filmDetailMediaList = [];
       state.filmDetailMediaList = [...state.filmDetailMediaList, action.payload.data];
+    }),
+    builder.addMatcher(publicApi.endpoints.getMovieMediaByEpisode.matchFulfilled,(state, action) =>{
+      state.filmDetailMediaList = [];
+      state.filmDetailMediaList = [...state.filmDetailMediaList, action.payload.data];
     })
   }
 })

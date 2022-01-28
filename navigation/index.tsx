@@ -3,7 +3,7 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome } from "@expo/vector-icons";
+import { AntDesign, FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
   DarkTheme,
@@ -66,8 +66,10 @@ function RootNavigator() {
       <Stack.Screen
         name="MovieDetail"
         component={MovieDetailScreen}
-        options={{ title: "Movie Detail" }}
-      
+        options={{
+          title: "Movie Detail",
+          headerShown: false,
+        }}
       />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
@@ -97,7 +99,9 @@ function BottomTabNavigator() {
         component={TabOneScreen}
         options={({ navigation }: RootTabScreenProps<"TabOne">) => ({
           title: "Home",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <AntDesign name="home" size={24} color={color} />
+          ),
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate("Modal")}
@@ -121,7 +125,9 @@ function BottomTabNavigator() {
         component={TabTwoScreen}
         options={{
           title: "Search",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <AntDesign name="search1" size={24} color={color} />
+          ),
         }}
       />
 
@@ -130,7 +136,9 @@ function BottomTabNavigator() {
         component={TabThreeScreen}
         options={{
           title: "History",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="history" size={24} color={color} />
+          ),
         }}
       />
 
@@ -139,7 +147,9 @@ function BottomTabNavigator() {
         component={TabFourScreen}
         options={{
           title: "Profile",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <AntDesign name="profile" size={24} color={color} />
+          ),
         }}
       />
     </BottomTab.Navigator>

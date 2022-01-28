@@ -22,12 +22,18 @@ export const publicApi = createApi({
       query: (page) => `/cms/app/homePage/getHome?page=${page}`,
     }),
     getMovieDetail: builder.query({
-      query: ({id, category}) => `/cms/app/movieDrama/get?id=${id}&category=${category}`,
+      query: ({ id, category }) => `/cms/app/movieDrama/get?id=${id}&category=${category}`,
     }),
     getMovieMedia: builder.query({
-      query: ({category, contentId, episodeId, definition}) => `cms/app/media/previewInfo?category=${category}&contentId=${contentId}&episodeId=${episodeId}&definition=${definition}`,
+      query: ({ category, contentId, episodeId, definition }) => `cms/app/media/previewInfo?category=${category}&contentId=${contentId}&episodeId=${episodeId}&definition=${definition}`,
+    }),
+    getMovieMediaByEpisode: builder.mutation({
+      query: ({ category, contentId, episodeId, definition }) => ({
+        url: `cms/app/media/previewInfo?category=${category}&contentId=${contentId}&episodeId=${episodeId}&definition=${definition}`,
+        method: 'GET',
+      }),
     })
   }),
 });
 
-export const { useGetHomeQuery, useGetMovieDetailQuery, useGetMovieMediaQuery } = publicApi;
+export const { useGetHomeQuery, useGetMovieDetailQuery, useGetMovieMediaQuery, useGetMovieMediaByEpisodeMutation } = publicApi;
