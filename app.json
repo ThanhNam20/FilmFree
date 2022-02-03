@@ -4,11 +4,11 @@
     "slug": "filmFree",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/film_free.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/film_free.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -20,17 +20,16 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.thanhnam20.filmFree"
+      "bundleIdentifier": "com.thanhnam20.filmFree",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/film_free.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.thanhnam20.filmFree"
-    },
-    "web": {
-      "favicon": "./assets/images/favicon.png"
+      "package": "com.thanhnam20.filmFree",
+      "versionCode": 1
     }
   }
 }
