@@ -21,7 +21,6 @@ const MovieDetailScreen = () => {
     isLoading,
     error,
   } = useGetMovieDetailQuery(movieDetailParams);
-  // console.log(movieDetailData);
 
   if (isLoading) {
     return <Text>Loading...</Text>;
@@ -35,6 +34,7 @@ const MovieDetailScreen = () => {
         <VideoPlayComponent
           movieDetailData={{
             episodeVoList: movieDetailData.data.episodeVo[0],
+            coverHorizontalUrl: movieDetailData.data.coverHorizontalUrl,
             category: route.params.category,
             contentId: route.params.id,
           }}

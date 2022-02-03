@@ -22,11 +22,13 @@ const HomeComponent = () => {
         <FlatList
           data={homeState.listFilmData}
           renderItem={({ item }: any) =>
-            item.homeSectionType === "BANNER" ? (
-              <CarouselBannerComponent listBanner={item} />
-            ) : (
-              <FilmCategory listFilmCategory={item} />
-            )
+            item.bannerProportion === null ? (
+              item.homeSectionType === "BANNER" ? (
+                <CarouselBannerComponent listBanner={item} />
+              ) : (
+                <FilmCategory listFilmCategory={item} />
+              )
+            ) : null
           }
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={true}
@@ -34,13 +36,11 @@ const HomeComponent = () => {
           onEndReachedThreshold={0.1}
           scrollEventThrottle={150}
           ListFooterComponent={() => <ActivityIndicator />}
-
           removeClippedSubviews={true} // Unmount components when outside of window
           initialNumToRender={5} // Reduce initial render amount
           maxToRenderPerBatch={1} // Reduce number in each render batch
           updateCellsBatchingPeriod={1000} // Increase time between renders
           windowSize={7} // Reduce the window size
-
         />
       ) : null}
     </View>
