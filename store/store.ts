@@ -1,3 +1,4 @@
+import { SearchReducer } from './search/searchSlice';
 import { UserReducer } from './user/userSlice';
 import { configureStore } from '@reduxjs/toolkit'
 import { privateApi } from '../services/private-api.service';
@@ -11,7 +12,8 @@ export const store = configureStore({
     [privateApi.reducerPath]: privateApi.reducer,
     [publicApi.reducerPath]: publicApi.reducer,
     UserReducer,
-    FilmReducer
+    FilmReducer,
+    SearchReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(privateApi.middleware).concat(publicApi.middleware),
 });

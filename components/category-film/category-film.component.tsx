@@ -14,11 +14,13 @@ const FilmCategory = ({ listFilmCategory }: any) => {
         renderItem={({ item }: any) => <FilmItem item={item} />}
         horizontal
         // Performance settings
+        keyExtractor={(item, index) => index.toString()}
+        showsVerticalScrollIndicator={true}
         removeClippedSubviews={true} // Unmount components when outside of window
-        initialNumToRender={5} // Reduce initial render amount
+        initialNumToRender={3} // Reduce initial render amount
         maxToRenderPerBatch={1} // Reduce number in each render batch
-        updateCellsBatchingPeriod={1000} // Increase time between renders
-        windowSize={7} // Reduce the window size
+        updateCellsBatchingPeriod={500} // Increase time between renders
+        windowSize={5} // Reduce the window size
       />
     </View>
   );

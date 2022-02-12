@@ -76,6 +76,7 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
 
   const onFullScreen = () => {
     setIsFullScreen(!isFullScreen);
+    videoPlayer.current?.presentFullscreenPlayer();
   };
 
   return (
@@ -95,7 +96,7 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
             onProgress={onProgress}
             paused={paused}
             ref={(ref) => (videoPlayer.current = ref)}
-            resizeMode={"cover"}
+            resizeMode={"contain"}
             poster={coverHorizontalUrl}
           />
 

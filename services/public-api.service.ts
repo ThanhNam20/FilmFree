@@ -32,8 +32,28 @@ export const publicApi = createApi({
         url: `cms/app/media/previewInfo?category=${category}&contentId=${contentId}&episodeId=${episodeId}&definition=${definition}`,
         method: 'GET',
       }),
-    })
+    }),
+    getListRecommendMovie: builder.query({
+      query: () => ({
+        url: `cms/app/search/v1/searchLeaderboard`,
+        method: 'GET',
+      }),
+    }),
+
+    searchMovieComplete: builder.mutation({
+      query: ({ searchKeyWord, size }: any) => ({
+        url: `cms/app/search/v1/searchWithKeyWord`,
+        method: 'POST',
+        body: {
+          searchKeyWord,
+          size,
+          sort: "",
+          searchType: ""
+        }
+      }),
+    }),
+
   }),
 });
 
-export const { useGetHomeQuery, useGetMovieDetailQuery, useGetMovieMediaQuery, useGetMovieMediaByEpisodeMutation } = publicApi;
+export const { useGetHomeQuery, useGetMovieDetailQuery, useGetMovieMediaQuery, useGetMovieMediaByEpisodeMutation, useGetListRecommendMovieQuery, useSearchMovieCompleteMutation } = publicApi;

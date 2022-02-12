@@ -15,7 +15,6 @@ const EpisodesListComponent = ({ episodeList }: any) => {
   );
 
   const chooseEpisode = (episode_item: any, index: any) => {
-    console.log(episode_item);
     if (!episode_item) return;
     episode_item.item.definitionList.forEach((element: any) => {
       const movieUrlParam = {
