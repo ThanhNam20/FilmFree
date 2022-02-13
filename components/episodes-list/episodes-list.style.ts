@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 10,
     backgroundColor: mainColor,
+    paddingEnd: 10
   },
   episode_item: {
     marginLeft: 10,

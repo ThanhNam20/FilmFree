@@ -9,9 +9,16 @@ import { mainColor } from "../constants/config";
 import VideoPlayComponent from "../components/video-play";
 import MovieDescriptionComponent from "../components/movie-description";
 import EpisodesListComponent from "../components/episodes-list";
+import { useDispatch } from 'react-redux'
+import { removeMovieDetailData } from "../store/film/filmSlice";
 
 const MovieDetailScreen = () => {
   const route: any = useRoute();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(removeMovieDetailData());
+  }, [])
+  
   const movieDetailParams = {
     id: route.params.id,
     category: route.params.category,

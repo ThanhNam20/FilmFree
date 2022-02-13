@@ -17,6 +17,15 @@ const VideoPlayStyle = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  custom_tool_bar: {
+    position: 'relative',
+    height: 30,
+    width: 60,
+    borderColor: '#F1E9E5',
+    borderWidth: 2,
+    borderRadius: 3,
+    top: 0,
+  }
 });
 
 export default VideoPlayStyle;

@@ -5,17 +5,21 @@ import {
   useGetMovieMediaByEpisodeMutation,
   useGetMovieMediaQuery,
 } from "../../services/public-api.service";
+import { useDispatch } from "react-redux";
+import { removeMovieDetailData } from "../../store/film/filmSlice";
 
 const EpisodesListComponent = ({ episodeList }: any) => {
   const { episodeListData, category, contentId } = episodeList;
   const [getMovieByEpisode, { data, isLoading, error }] =
     useGetMovieMediaByEpisodeMutation();
+  const dispatch = useDispatch();  
   const episodeListDataWithIndex = episodeListData.map(
     (element: any, index: number) => ({ ...element, index })
   );
 
   const chooseEpisode = (episode_item: any, index: any) => {
     if (!episode_item) return;
+    dispatch(removeMovieDetailData());
     episode_item.item.definitionList.forEach((element: any) => {
       const movieUrlParam = {
         category,

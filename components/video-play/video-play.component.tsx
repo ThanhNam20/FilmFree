@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, Image, Platform } from "react-native";
+import { Platform, View } from "react-native";
+import MediaControls, { PLAYER_STATES } from "react-native-media-controls";
 import Video from "react-native-video";
 import { useSelector } from "react-redux";
-import { SLIDER_WIDTH } from "../../constants/config";
 import { useGetMovieMediaQuery } from "../../services/public-api.service";
 import { RootState } from "../../store/store";
-import MediaControls, { PLAYER_STATES } from "react-native-media-controls";
+import VideoPlayStyle from "./video-play.style";
+import SelectDropdown from "react-native-select-dropdown";
 const VideoPlayComponent = ({ movieDetailData }: any) => {
   const { episodeVoList, category, contentId, coverHorizontalUrl } =
     movieDetailData;
@@ -13,6 +14,7 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
   const videoMediaUrlList = useSelector(
     (state: RootState) => state.FilmReducer.filmDetailMediaList
   );
+
   let videoPlayer = React.useRef<any>(null);
   const [duration, setDuration] = useState(0);
   const [paused, setPaused] = useState(true);
@@ -21,6 +23,9 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
   const [playerState, setPlayerState] = useState(PLAYER_STATES.PAUSED);
   const [isLoading, setIsLoading] = useState(true);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [selectedMovieQuality, setSelectedMovieQuality] = useState("");
+  const [selectedMovieQualityTitle, setSelectedMovieQualityTitle] = useState("");
 
   episodeVoList.definitionList.forEach((element: any) => {
     const movieUrlParam = {
@@ -31,6 +36,14 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
     };
     useGetMovieMediaQuery(movieUrlParam);
   });
+
+  useEffect(() => {
+    if(videoMediaUrlList && videoMediaUrlList.length > 0) {
+      setSelectedMovieQuality(videoMediaUrlList[0].mediaUrl);
+      setSelectedMovieQualityTitle(videoMediaUrlList[0].currentDefinition)
+    }
+  }, [videoMediaUrlList])
+  
 
   const onSeek = (seek: any) => {
     videoPlayer?.current.seek(seek);
@@ -80,12 +93,12 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={VideoPlayStyle.container}>
       {videoMediaUrlList && videoMediaUrlList.length > 0 ? (
         <View>
           <Video
             source={{
-              uri: videoMediaUrlList[0].mediaUrl,
+              uri: selectedMovieQuality,
               type: "m3u8",
             }}
             style={{ aspectRatio: 16 / 9 }}
@@ -114,9 +127,47 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
             fadeOutDelay={5000}
             playerState={playerState}
             sliderStyle={{ containerStyle: {}, thumbStyle: {}, trackStyle: {} }}
-            children={undefined}
             containerStyle={undefined}
-          />
+            showOnStart={true}
+          >
+            <MediaControls.Toolbar>
+              <SelectDropdown
+                data={videoMediaUrlList}
+                defaultButtonText={'Quality'}
+                buttonStyle={
+                  {
+                    width: 70,
+                    height: 30,
+                    borderRadius: 5,
+                  }
+                }
+                buttonTextStyle={{
+                  fontSize: 12,
+                }}
+                dropdownStyle={{
+                  borderRadius: 5,
+                  width: 80
+                }}
+                rowTextStyle={{
+                  fontSize: 12
+                }}
+                onSelect={(selectedItem, index) => {
+                  setSelectedMovieQuality(selectedItem.mediaUrl);
+                  setSelectedMovieQualityTitle(selectedItem.currentDefinition);
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                  // text represented after item is selected
+                  // if data array is an array of objects then return selectedItem.property to render after item is selected
+                  return selectedItem.currentDefinition;
+                }}
+                rowTextForSelection={(item, index) => {
+                  // text represented for each item in dropdown
+                  // if data array is an array of objects then return item.property to represent item in dropdown
+                  return item.currentDefinition;
+                }}
+              />
+            </MediaControls.Toolbar>
+          </MediaControls>
         </View>
       ) : null}
     </View>
@@ -125,19 +176,3 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
 
 export default VideoPlayComponent;
 
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    backgroundColor: "#ecf0f1",
-  },
-  video: {
-    alignSelf: "center",
-    width: 320,
-    height: 200,
-  },
-  buttons: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
