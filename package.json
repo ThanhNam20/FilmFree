@@ -38,6 +38,7 @@
     "react-native-dotenv": "3.3.0",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-media-controls": "2.3.0",
+    "react-native-orientation-locker": "^1.4.0",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
     "react-native-select-dropdown": "^1.8.0",

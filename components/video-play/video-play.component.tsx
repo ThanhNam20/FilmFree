@@ -7,6 +7,8 @@ import { useGetMovieMediaQuery } from "../../services/public-api.service";
 import { RootState } from "../../store/store";
 import VideoPlayStyle from "./video-play.style";
 import SelectDropdown from "react-native-select-dropdown";
+import Orientation from "react-native-orientation-locker";
+
 const VideoPlayComponent = ({ movieDetailData }: any) => {
   const { episodeVoList, category, contentId, coverHorizontalUrl } =
     movieDetailData;
@@ -25,7 +27,8 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [selectedMovieQuality, setSelectedMovieQuality] = useState("");
-  const [selectedMovieQualityTitle, setSelectedMovieQualityTitle] = useState("");
+  const [selectedMovieQualityTitle, setSelectedMovieQualityTitle] =
+    useState("");
 
   episodeVoList.definitionList.forEach((element: any) => {
     const movieUrlParam = {
@@ -38,12 +41,12 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
   });
 
   useEffect(() => {
-    if(videoMediaUrlList && videoMediaUrlList.length > 0) {
+    if (videoMediaUrlList && videoMediaUrlList.length > 0) {
       setSelectedMovieQuality(videoMediaUrlList[0].mediaUrl);
-      setSelectedMovieQualityTitle(videoMediaUrlList[0].currentDefinition)
+      setSelectedMovieQualityTitle(videoMediaUrlList[0].currentDefinition);
     }
-  }, [videoMediaUrlList])
-  
+  }, [videoMediaUrlList]);
+
 
   const onSeek = (seek: any) => {
     videoPlayer?.current.seek(seek);
@@ -88,12 +91,22 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
   };
 
   const onFullScreen = () => {
+    if (!isFullScreen) {
+      Orientation.lockToLandscape();
+      videoPlayer.current?.presentFullscreenPlayer();
+    } else {
+      videoPlayer.current?.dismissFullscreenPlayer();
+      if (Platform.OS === "ios") {
+        Orientation.lockToPortrait();
+      }
+      Orientation.lockToPortrait();
+    }
     setIsFullScreen(!isFullScreen);
-    videoPlayer.current?.presentFullscreenPlayer();
+    
   };
 
   return (
-    <View style={VideoPlayStyle.container}>
+    <View style={[VideoPlayStyle.container, {marginHorizontal: 0}]}>
       {videoMediaUrlList && videoMediaUrlList.length > 0 ? (
         <View>
           <Video
@@ -101,7 +114,7 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
               uri: selectedMovieQuality,
               type: "m3u8",
             }}
-            style={{ aspectRatio: 16 / 9 }}
+            style={VideoPlayStyle.backgroundVideo}
             onEnd={onEnd}
             onLoad={onLoad}
             onLoadStart={onLoadStart}
@@ -114,6 +127,7 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
           />
 
           <MediaControls
+            style={isFullScreen ? VideoPlayStyle.backgroundVideoFullScreen : VideoPlayStyle.backgroundVideo}
             isFullScreen={isFullScreen}
             duration={duration}
             isLoading={isLoading}
@@ -126,30 +140,28 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
             onFullScreen={onFullScreen}
             fadeOutDelay={5000}
             playerState={playerState}
-            sliderStyle={{ containerStyle: {}, thumbStyle: {}, trackStyle: {} }}
+            sliderStyle={isFullScreen ? { containerStyle: VideoPlayStyle.mediaControls, thumbStyle: {}, trackStyle: {} } : { containerStyle: {}, thumbStyle: {}, trackStyle: {} }}
             containerStyle={undefined}
             showOnStart={true}
           >
             <MediaControls.Toolbar>
               <SelectDropdown
                 data={videoMediaUrlList}
-                defaultButtonText={'Quality'}
-                buttonStyle={
-                  {
-                    width: 70,
-                    height: 30,
-                    borderRadius: 5,
-                  }
-                }
+                defaultButtonText={"Quality"}
+                buttonStyle={{
+                  width: 70,
+                  height: 30,
+                  borderRadius: 5,
+                }}
                 buttonTextStyle={{
                   fontSize: 12,
                 }}
                 dropdownStyle={{
                   borderRadius: 5,
-                  width: 80
+                  width: 80,
                 }}
                 rowTextStyle={{
-                  fontSize: 12
+                  fontSize: 12,
                 }}
                 onSelect={(selectedItem, index) => {
                   setSelectedMovieQuality(selectedItem.mediaUrl);
@@ -175,4 +187,3 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
 };
 
 export default VideoPlayComponent;
-

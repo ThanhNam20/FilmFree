@@ -17,9 +17,9 @@ const FilmCategory = ({ listFilmCategory }: any) => {
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={true}
         removeClippedSubviews={true} // Unmount components when outside of window
-        initialNumToRender={3} // Reduce initial render amount
-        maxToRenderPerBatch={1} // Reduce number in each render batch
-        updateCellsBatchingPeriod={500} // Increase time between renders
+        initialNumToRender={5} // Reduce initial render amount
+        maxToRenderPerBatch={10} // Reduce number in each render batch
+        updateCellsBatchingPeriod={100} // Increase time between renders
         windowSize={5} // Reduce the window size
       />
     </View>

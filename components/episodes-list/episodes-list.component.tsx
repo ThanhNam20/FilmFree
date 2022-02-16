@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Button, Pressable } from "react-native";
+import { View, Text, FlatList, Button, Pressable, ActivityIndicator } from "react-native";
 import React from "react";
 import { episodesListStyle } from "./episodes-list.style";
 import {
@@ -47,6 +47,13 @@ const EpisodesListComponent = ({ episodeList }: any) => {
           </Pressable>
         )}
         horizontal
+        showsVerticalScrollIndicator={true}
+        scrollEventThrottle={1000}
+        ListFooterComponent={() => <ActivityIndicator />}
+        removeClippedSubviews={true} // Unmount components when outside of window
+        maxToRenderPerBatch={1} // Reduce number in each render batch
+        updateCellsBatchingPeriod={100} // Increase time between renders
+        windowSize={7}
       />
     </View>
   );

@@ -85,6 +85,11 @@ const RecommendListComponent = () => {
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           ListFooterComponent={<View style={{ height: 120 }} />}
+          
+          removeClippedSubviews={true} // Unmount components when outside of window
+          initialNumToRender={2} // Reduce initial render amount
+          updateCellsBatchingPeriod={100} // Increase time between renders
+          windowSize={7} // Reduce the window size
         />
       ) : null}
     </View>
