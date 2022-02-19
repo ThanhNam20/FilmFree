@@ -4,8 +4,9 @@ import FilmItem from "../film-item";
 import { CategoryStyle } from "./category-film.style";
 
 const FilmCategory = ({ listFilmCategory }: any) => {
+
   return (
-    <View>
+    <View style={{backgroundColor: '#000'}}>
       <Text style={CategoryStyle.text}>
         {listFilmCategory?.homeSectionName}
       </Text>

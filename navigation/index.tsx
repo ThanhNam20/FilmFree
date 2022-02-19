@@ -66,10 +66,10 @@ function RootNavigator() {
       <Stack.Screen
         name="MovieDetail"
         component={MovieDetailScreen}
-        options={{
+        options={({ navigation }: any) => ({
           title: "Movie Detail",
           headerShown: false,
-        }}
+        })}
       />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />

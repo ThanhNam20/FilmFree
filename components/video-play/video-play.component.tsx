@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Platform, View } from "react-native";
 import MediaControls, { PLAYER_STATES } from "react-native-media-controls";
+import Orientation from "react-native-orientation-locker";
+import SelectDropdown from "react-native-select-dropdown";
+import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 import Video from "react-native-video";
 import { useSelector } from "react-redux";
+import { SLIDER_HEIGHT, SLIDER_WIDTH } from "../../constants/config";
 import { useGetMovieMediaQuery } from "../../services/public-api.service";
 import { RootState } from "../../store/store";
 import VideoPlayStyle from "./video-play.style";
-import SelectDropdown from "react-native-select-dropdown";
-import Orientation from "react-native-orientation-locker";
 
 const VideoPlayComponent = ({ movieDetailData }: any) => {
   const { episodeVoList, category, contentId, coverHorizontalUrl } =
@@ -17,10 +19,14 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
     (state: RootState) => state.FilmReducer.filmDetailMediaList
   );
 
+  const loadingMovieUrl = useSelector(
+    (state: RootState) => state.FilmReducer.isLoading
+  );
+
+
   let videoPlayer = React.useRef<any>(null);
   const [duration, setDuration] = useState(0);
   const [paused, setPaused] = useState(true);
-
   const [currentTime, setCurrentTime] = useState(0);
   const [playerState, setPlayerState] = useState(PLAYER_STATES.PAUSED);
   const [isLoading, setIsLoading] = useState(true);
@@ -29,23 +35,22 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
   const [selectedMovieQuality, setSelectedMovieQuality] = useState("");
   const [selectedMovieQualityTitle, setSelectedMovieQualityTitle] =
     useState("");
-
   episodeVoList.definitionList.forEach((element: any) => {
     const movieUrlParam = {
       category,
       contentId,
       episodeId: episodeVoList.id,
       definition: element.code,
-    };
+    };    
     useGetMovieMediaQuery(movieUrlParam);
   });
 
   useEffect(() => {
-    if (videoMediaUrlList && videoMediaUrlList.length > 0) {
-      setSelectedMovieQuality(videoMediaUrlList[0].mediaUrl);
-      setSelectedMovieQualityTitle(videoMediaUrlList[0].currentDefinition);
-    }
-  }, [videoMediaUrlList]);
+    if (loadingMovieUrl === false && videoMediaUrlList.length > 0) {
+      setSelectedMovieQuality(videoMediaUrlList[0].mediaUrl || '');
+      setSelectedMovieQualityTitle(videoMediaUrlList[0].currentDefinition|| '');
+    }    
+  }, [loadingMovieUrl]);
 
 
   const onSeek = (seek: any) => {
@@ -102,12 +107,22 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
       Orientation.lockToPortrait();
     }
     setIsFullScreen(!isFullScreen);
-    
   };
+
+  const SkeletonLoading = () =>{
+    return (
+      <SkeletonPlaceholder highlightColor="#eee" backgroundColor="#353E4D">
+      <SkeletonPlaceholder.Item
+        height={SLIDER_HEIGHT/3}
+        width={SLIDER_WIDTH}
+      ></SkeletonPlaceholder.Item>
+    </SkeletonPlaceholder>
+    )
+  }
 
   return (
     <View style={[VideoPlayStyle.container, {marginHorizontal: 0}]}>
-      {videoMediaUrlList && videoMediaUrlList.length > 0 ? (
+      {!loadingMovieUrl ? (
         <View>
           <Video
             source={{
@@ -152,9 +167,13 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
                   width: 70,
                   height: 30,
                   borderRadius: 5,
+                  backgroundColor: 'transparent',
+                  borderColor: '#eee',
+                  borderWidth: 1
                 }}
                 buttonTextStyle={{
-                  fontSize: 12,
+                  fontSize: 11,
+                  color: '#eee'
                 }}
                 dropdownStyle={{
                   borderRadius: 5,
@@ -168,20 +187,18 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
                   setSelectedMovieQualityTitle(selectedItem.currentDefinition);
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
-                  // text represented after item is selected
-                  // if data array is an array of objects then return selectedItem.property to render after item is selected
                   return selectedItem.currentDefinition;
                 }}
                 rowTextForSelection={(item, index) => {
-                  // text represented for each item in dropdown
-                  // if data array is an array of objects then return item.property to represent item in dropdown
                   return item.currentDefinition;
                 }}
               />
             </MediaControls.Toolbar>
           </MediaControls>
         </View>
-      ) : null}
+      ) : 
+      <SkeletonLoading/>
+      }
     </View>
   );
 };

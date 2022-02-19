@@ -12,7 +12,8 @@ const styles = StyleSheet.create({
     width: SLIDER_WIDTH / 7,
     padding: 10,
     borderWidth: 2,
-    borderColor: forcusColor
+    borderColor: '#eee',
+    borderRadius: 3
   },
   textColor: {
     color: '#fff',

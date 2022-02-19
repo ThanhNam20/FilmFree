@@ -23,8 +23,6 @@ const RecommendListComponent = () => {
   );
 
   const getMovieDetail = (item: any) => {
-    console.log(item);
-
     navigation.navigate("MovieDetail", {
       id: item.id,
       category: item.domainType,

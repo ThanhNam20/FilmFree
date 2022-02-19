@@ -11,14 +11,11 @@ import MovieDescriptionComponent from "../components/movie-description";
 import EpisodesListComponent from "../components/episodes-list";
 import { useDispatch } from 'react-redux'
 import { removeMovieDetailData } from "../store/film/filmSlice";
+import categoryFilmComponent from "../components/category-film/category-film.component";
+import FilmCategory from "../components/category-film";
 
-const MovieDetailScreen = () => {
-  const route: any = useRoute();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(removeMovieDetailData());
-  }, [])
-  
+const MovieDetailScreen = ({ navigation }: any) => {
+  const route: any = useRoute();  
   const movieDetailParams = {
     id: route.params.id,
     category: route.params.category,
@@ -28,6 +25,24 @@ const MovieDetailScreen = () => {
     isLoading,
     error,
   } = useGetMovieDetailQuery(movieDetailParams);
+
+  const LikeListMovie = () =>{
+    const likeListMovies = movieDetailData.data.likeList.map((item: any) =>({
+      id: item.id,
+      category: item.category,
+      imageUrl: item.coverVerticalUrl,
+      title: item.name
+    } as any))
+
+    const data ={
+      homeSectionName: 'Relative movies',
+      recommendContentVOList: likeListMovies,
+      navigation
+    }
+    return (
+      <FilmCategory listFilmCategory={data}/>
+    )
+  }
 
   if (isLoading) {
     return <Text>Loading...</Text>;
@@ -65,6 +80,7 @@ const MovieDetailScreen = () => {
             contentId: route.params.id,
           }}
         />
+        <LikeListMovie/>
       </ScrollView>
     </SafeAreaView>
   );

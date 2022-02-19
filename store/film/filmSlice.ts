@@ -4,7 +4,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initState: any = {
   listFilmData: [],
   filmDetailData: null,
-  filmDetailMediaList: []
+  filmDetailMediaList: [],
+  isLoading: false
 };
 
 const filmSlice = createSlice({
@@ -12,7 +13,8 @@ const filmSlice = createSlice({
   initialState: initState,
   reducers: {
     removeMovieDetailData: (state) => {
-      state.filmDetailMediaList = []
+      state.filmDetailMediaList = [],
+      state.isLoading = false
     }
   },
 
@@ -23,11 +25,23 @@ const filmSlice = createSlice({
       builder.addMatcher(publicApi.endpoints.getMovieDetail.matchFulfilled, (state, action) => {
         state.filmDetailData = action.payload.data;
       }),
+
+      builder.addMatcher(publicApi.endpoints.getMovieMedia.matchPending, (state, action) => {
+        state.isLoading = true;
+      }),
+
       builder.addMatcher(publicApi.endpoints.getMovieMedia.matchFulfilled, (state, action) => {
         state.filmDetailMediaList = [...state.filmDetailMediaList, action.payload.data];
+        state.isLoading = false;
       }),
+
+      builder.addMatcher(publicApi.endpoints.getMovieMediaByEpisode.matchPending, (state, action) => {
+        state.isLoading = true;
+      }),
+      
       builder.addMatcher(publicApi.endpoints.getMovieMediaByEpisode.matchFulfilled, (state, action) => {
         state.filmDetailMediaList = [...state.filmDetailMediaList, action.payload.data];
+        state.isLoading = false;
       })
   }
 })
