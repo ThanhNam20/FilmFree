@@ -1,16 +1,50 @@
-import React from 'react'
-import { View, Text, Image } from 'react-native'
+import React, { useEffect, useReducer, useState } from "react";
+import {
+  View,
+  Text,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
+import { useSelector } from "react-redux";
+import LoginComponent from "../components/login";
+import UserProfileComponent from "../components/user-profile";
+import { LOCAL_STORAGE } from "../constants/config";
+import { AsyncStorageService } from "../services/storage.service";
+import { RootState } from "../store/store";
 
 const TabFourScreen = () => {
-  return (
-    <View>
-      <Text>Hello</Text>
-      <Image style={{
-        width: 50,
-        height: 50
-      }} source={{uri: "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/netflix/movie1.jpg"}} />
-    </View>
-  )
-}
+  const [userData, setUserData] = useState(null);
+  const userReducer = useSelector((state: RootState) => state.UserReducer);
 
-export default TabFourScreen
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  const getUserData = async () => {
+    const user_data = await AsyncStorageService.getItem(
+      LOCAL_STORAGE.USER_INFO
+    );
+    if (user_data) {
+      setUserData(user_data);
+    } else {
+      setUserData(null);
+    }
+    return user_data ? user_data : null;
+  };
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      {userData || userReducer.userInfo ? <UserProfileComponent userInfo={userData} /> : <LoginComponent />}
+    </View>
+  );
+};
+
+export default TabFourScreen;

@@ -12,3 +12,7 @@ export const SLIDER_HEIGHT = Dimensions.get('window').height;
 
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.9);
 export const ITEM_HEIGHT = Math.round(ITEM_WIDTH * 3 / 5);
+
+export const LOCAL_STORAGE = {
+  USER_INFO: 'user_info'
+}

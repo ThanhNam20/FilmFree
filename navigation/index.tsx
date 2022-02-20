@@ -131,7 +131,7 @@ function BottomTabNavigator() {
         }}
       />
 
-      <BottomTab.Screen
+      {/* <BottomTab.Screen
         name="TabThree"
         component={TabThreeScreen}
         options={{
@@ -140,7 +140,7 @@ function BottomTabNavigator() {
             <MaterialIcons name="history" size={24} color={color} />
           ),
         }}
-      />
+      /> */}
 
       <BottomTab.Screen
         name="TabFour"
@@ -150,6 +150,7 @@ function BottomTabNavigator() {
           tabBarIcon: ({ color }) => (
             <AntDesign name="profile" size={24} color={color} />
           ),
+          headerShown: false
         }}
       />
     </BottomTab.Navigator>

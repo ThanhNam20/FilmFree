@@ -6,6 +6,13 @@ import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 import { store } from './store/store';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { APP_CLIENT_ID } from '@env';
+
+GoogleSignin.configure({
+  webClientId: APP_CLIENT_ID
+});
+
 
 export default function App() {
   const isLoadingComplete = useCachedResources();

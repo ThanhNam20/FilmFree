@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "246976106279",
+    "project_id": "filmfree-26fd0",
+    "storage_bucket": "filmfree-26fd0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246976106279:android:8f8476d3a71377dcb62302",
+        "android_client_info": {
+          "package_name": "com.thanhnam20.filmFree"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246976106279-lm0nmv82vi2q9tqdqnsqt4q8n9do6e45.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thanhnam20.filmFree",
+            "certificate_hash": "5b1591646cb9addcb78fbe06207fdcc9d44e068d"
+          }
+        },
+        {
+          "client_id": "246976106279-r7tqod59qgs3rmopdboinfacsnjuvn3q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thanhnam20.filmFree",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "246976106279-mbdirbiua2b8b89gir5r3l1mcf79h3sb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBESt-c394yLIL-Z-CDyrNhHCyDKHfQfvY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246976106279-mbdirbiua2b8b89gir5r3l1mcf79h3sb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
