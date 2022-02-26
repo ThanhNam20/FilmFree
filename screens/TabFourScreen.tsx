@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import LoginComponent from "../components/login";
 import UserProfileComponent from "../components/user-profile";
 import { LOCAL_STORAGE } from "../constants/config";
+import { withAuth } from "../HOC/withAuth";
 import { AsyncStorageService } from "../services/storage.service";
 import { RootState } from "../store/store";
 
@@ -42,9 +43,9 @@ const TabFourScreen = () => {
         alignItems: "center",
       }}
     >
-      {userData || userReducer.userInfo ? <UserProfileComponent userInfo={userData} /> : <LoginComponent />}
+      <UserProfileComponent userInfo={userData} />
     </View>
   );
 };
 
-export default TabFourScreen;
+export default withAuth(TabFourScreen);

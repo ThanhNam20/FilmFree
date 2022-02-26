@@ -6,9 +6,11 @@ import { useDispatch } from "react-redux";
 import { setUserInfo } from "../../store/user/userSlice";
 import { AsyncStorageService } from "../../services/storage.service";
 import { LOCAL_STORAGE } from "../../constants/config";
+import { useNavigation } from "@react-navigation/native";
 
 const LoginComponent = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const onGoogleButtonPress = async () => {
     // Get the users ID token
     const { idToken } = await GoogleSignin.signIn();
@@ -20,6 +22,7 @@ const LoginComponent = () => {
       .then(async (user_info) => {
         dispatch(setUserInfo(user_info));
         AsyncStorageService.setItem(user_info.user, LOCAL_STORAGE.USER_INFO);
+        navigation.navigate('Root');
       })
       .catch((error) => {
         console.log(error);
@@ -27,7 +30,13 @@ const LoginComponent = () => {
   };
 
   return (
-    <View>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <TouchableOpacity style={[styles.buttonContainer, styles.fabookButton]}>
         <View style={styles.socialButtonContent}>
           <Image

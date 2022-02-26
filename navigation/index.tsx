@@ -13,6 +13,7 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import { ColorSchemeName, Pressable } from "react-native";
+import LoginComponent from "../components/login";
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import ModalScreen from "../screens/ModalScreen";
@@ -71,6 +72,15 @@ function RootNavigator() {
           headerShown: false,
         })}
       />
+      <Stack.Screen
+        name="Login"
+        component={LoginComponent}
+        options={({ navigation }: any) => ({
+          title: "Login",
+          headerShown: false,
+        })}
+      />
+
       <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>
