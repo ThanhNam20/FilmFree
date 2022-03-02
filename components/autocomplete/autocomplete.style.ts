@@ -3,12 +3,11 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    zIndex: 10
+    zIndex: 2
   },
   list_movie_container: {
     borderColor: 'white',
     paddingLeft: 10,
-    zIndex: 10,
   },
   film_title: {
     color: 'white',

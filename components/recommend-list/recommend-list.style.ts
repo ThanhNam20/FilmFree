@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     paddingTop: 10,
     marginRight: 10,    
+    zIndex: 1
   },
   movie_recommend_item: {
     display: 'flex',

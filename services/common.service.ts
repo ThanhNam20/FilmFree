@@ -10,4 +10,13 @@ const formatLayoutData = (data: any, numColumns: number) => {
   return data;
 };
 
-export const CommonService = { formatLayoutData };
+const convertTimestamp = (timestamp: any) => {
+  let date = timestamp.toDate();
+  let mm = date.getMonth();
+  let dd = date.getDate();
+  let yyyy = date.getFullYear();
+  date = mm + '/' + dd + '/' + yyyy;
+  return date;
+}
+
+export const CommonService = { formatLayoutData, convertTimestamp };

@@ -23,7 +23,6 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
     (state: RootState) => state.FilmReducer.isLoading
   );
 
-
   let videoPlayer = React.useRef<any>(null);
   const [duration, setDuration] = useState(0);
   const [paused, setPaused] = useState(true);
@@ -41,17 +40,18 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
       contentId,
       episodeId: episodeVoList.id,
       definition: element.code,
-    };    
+    };
     useGetMovieMediaQuery(movieUrlParam);
   });
 
   useEffect(() => {
     if (loadingMovieUrl === false && videoMediaUrlList.length > 0) {
-      setSelectedMovieQuality(videoMediaUrlList[0].mediaUrl || '');
-      setSelectedMovieQualityTitle(videoMediaUrlList[0].currentDefinition|| '');
-    }    
+      setSelectedMovieQuality(videoMediaUrlList[0].mediaUrl || "");
+      setSelectedMovieQualityTitle(
+        videoMediaUrlList[0].currentDefinition || ""
+      );
+    }
   }, [loadingMovieUrl]);
-
 
   const onSeek = (seek: any) => {
     videoPlayer?.current.seek(seek);
@@ -109,19 +109,19 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
     setIsFullScreen(!isFullScreen);
   };
 
-  const SkeletonLoading = () =>{
+  const SkeletonLoading = () => {
     return (
       <SkeletonPlaceholder highlightColor="#eee" backgroundColor="#353E4D">
-      <SkeletonPlaceholder.Item
-        height={SLIDER_HEIGHT/3}
-        width={SLIDER_WIDTH}
-      ></SkeletonPlaceholder.Item>
-    </SkeletonPlaceholder>
-    )
-  }
+        <SkeletonPlaceholder.Item
+          height={SLIDER_HEIGHT / 3}
+          width={SLIDER_WIDTH}
+        ></SkeletonPlaceholder.Item>
+      </SkeletonPlaceholder>
+    );
+  };
 
   return (
-    <View style={[VideoPlayStyle.container, {marginHorizontal: 0}]}>
+    <View style={[VideoPlayStyle.container, { marginHorizontal: 0 }]}>
       {!loadingMovieUrl ? (
         <View>
           <Video
@@ -142,7 +142,11 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
           />
 
           <MediaControls
-            style={isFullScreen ? VideoPlayStyle.backgroundVideoFullScreen : VideoPlayStyle.backgroundVideo}
+            style={
+              isFullScreen
+                ? VideoPlayStyle.backgroundVideoFullScreen
+                : VideoPlayStyle.backgroundVideo
+            }
             isFullScreen={isFullScreen}
             duration={duration}
             isLoading={isLoading}
@@ -155,7 +159,15 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
             onFullScreen={onFullScreen}
             fadeOutDelay={5000}
             playerState={playerState}
-            sliderStyle={isFullScreen ? { containerStyle: VideoPlayStyle.mediaControls, thumbStyle: {}, trackStyle: {} } : { containerStyle: {}, thumbStyle: {}, trackStyle: {} }}
+            sliderStyle={
+              isFullScreen
+                ? {
+                    containerStyle: VideoPlayStyle.mediaControls,
+                    thumbStyle: {},
+                    trackStyle: {},
+                  }
+                : { containerStyle: {}, thumbStyle: {}, trackStyle: {} }
+            }
             containerStyle={undefined}
             showOnStart={true}
           >
@@ -167,13 +179,13 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
                   width: 70,
                   height: 30,
                   borderRadius: 5,
-                  backgroundColor: 'transparent',
-                  borderColor: '#eee',
-                  borderWidth: 1
+                  backgroundColor: "transparent",
+                  borderColor: "#eee",
+                  borderWidth: 1,
                 }}
                 buttonTextStyle={{
                   fontSize: 11,
-                  color: '#eee'
+                  color: "#eee",
                 }}
                 dropdownStyle={{
                   borderRadius: 5,
@@ -196,9 +208,9 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
             </MediaControls.Toolbar>
           </MediaControls>
         </View>
-      ) : 
-      <SkeletonLoading/>
-      }
+      ) : (
+        <SkeletonLoading />
+      )}
     </View>
   );
 };

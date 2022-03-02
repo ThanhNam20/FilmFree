@@ -8,11 +8,14 @@ import FilmCategory from "../category-film";
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 import { SLIDER_HEIGHT, SLIDER_WIDTH } from "../../constants/config";
 
+
+
+
 const HomeComponent = () => {
   const [page, setPage] = useState<number>(0);
   const { data, isLoading, error } = useGetHomeQuery(page);
   const homeState = useSelector((state: RootState) => state.FilmReducer);
-
+  
   const getMoreHomeData = () => {
     console.log("Get more data");
     setPage(page + 1);

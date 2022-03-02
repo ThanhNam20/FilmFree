@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet } from "react-native";
 import CarouselBannerComponent from "../components/carousel-banner";
-
-import EditScreenInfo from "../components/EditScreenInfo";
 import HomeComponent from "../components/home-component";
 import { Text, View } from "../components/Themed";
 import { mainColor } from "../constants/config";

@@ -3,7 +3,7 @@ import { SLIDER_HEIGHT,SLIDER_WIDTH } from "../../constants/config";
 
 const VideoPlayStyle = StyleSheet.create({
   container: {
-    flex: 1,
+    display: 'flex',
     justifyContent: 'center',
     backgroundColor: '#ecf0f1',
   },
