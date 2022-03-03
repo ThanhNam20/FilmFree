@@ -9,7 +9,7 @@ const userSlice = createSlice({
   initialState: initState,
   reducers: {
     setUserInfo: (state, action) => {
-      state.userInfo = action.payload.user
+      state.userInfo = action.payload
     }
   },
   extraReducers: {}

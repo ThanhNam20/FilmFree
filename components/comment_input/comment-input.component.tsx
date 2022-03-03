@@ -1,4 +1,5 @@
 import { AntDesign, Ionicons, SimpleLineIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
   Keyboard,
@@ -6,17 +7,27 @@ import {
   Platform,
   Pressable,
   StyleSheet,
+  Text,
   TextInput,
+  ToastAndroid,
   View,
 } from "react-native";
 import EmojiSelector, { Categories } from "react-native-emoji-selector";
-import { mainColor } from "../../constants/config";
+import { useSelector } from "react-redux";
+import { forcusColor, mainColor } from "../../constants/config";
+import MovieCommentModel from "../../model/movie-comment.model";
+import { FireStoreService } from "../../services/firestore.service";
+import { RootState } from "../../store/store";
 
-const CommentInputComponent = (props: any) => {
+const CommentInputComponent = ({ props }: any) => {
+  const navigation = useNavigation();
   const [message, setMessage] = useState("");
   const [isOpenEmojiPicker, setIsOpenEmojiPicker] = useState<any>(false);
-
   const [keyboardStatus, setKeyboardStatus] = useState("");
+  const userReducer = useSelector(
+    (state: RootState) => state.UserReducer.userInfo
+  );
+  const [changeHeightOjInput, movieId] = props;
 
   useEffect(() => {
     const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -32,6 +43,55 @@ const CommentInputComponent = (props: any) => {
     };
   }, []);
 
+  const showToastWithGravityAndOffset = () => {
+    ToastAndroid.showWithGravityAndOffset(
+      "Post comment success",
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50
+    );
+  };
+
+  const sendComment = () => {
+    if (message == "") return;
+    const commentUser: MovieCommentModel = {
+      comment_dislike_count: 0,
+      comment_like_count: 0,
+      comment_title: message,
+      created_at: new Date(),
+      film_id: `${movieId}`,
+      user_avatar: userReducer.photoURL,
+      user_name: userReducer.displayName,
+    };
+    setMessage("");
+    Keyboard.dismiss();
+    changeHeightOjInput(350);
+    setIsOpenEmojiPicker(!isOpenEmojiPicker);
+    FireStoreService.addMovieComment(commentUser).then(() => {
+      showToastWithGravityAndOffset();
+    });
+  };
+
+  if (userReducer == null) {
+    return (
+      <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+        <Text style={{ textAlign: "center", color: "white" }}>
+          You can't post comment without Login ?
+        </Text>
+        <Pressable onPress={() => navigation.navigate("Login")}>
+          <Text
+            style={{
+              color: forcusColor,
+              paddingLeft: 5
+            }}
+          >Login
+          </Text>
+        </Pressable>
+      </View>
+    );
+  }
+
   return (
     <KeyboardAvoidingView
       style={[styles.root, { height: isOpenEmojiPicker ? "50%" : "auto" }]}
@@ -40,13 +100,14 @@ const CommentInputComponent = (props: any) => {
     >
       <View style={styles.row}>
         <View style={styles.inputContainer}>
-
           <Pressable
             onPress={() => {
               if (isOpenEmojiPicker == !true) {
-                props.changeHeightOjInput(150);
+                Keyboard.dismiss();
+                changeHeightOjInput(150);
               } else {
-                props.changeHeightOjInput(350);
+                Keyboard.dismiss();
+                changeHeightOjInput(350);
               }
               setIsOpenEmojiPicker(!isOpenEmojiPicker);
             }}
@@ -65,21 +126,21 @@ const CommentInputComponent = (props: any) => {
             placeholder="Enter message..."
             onChangeText={setMessage}
             onFocus={() => {
-              props.changeHeightOjInput(75);
+              changeHeightOjInput(75);
             }}
-
-            onSubmitEditing={() =>{
-              Keyboard.dismiss;
-              props.changeHeightOjInput(350);
+            onSubmitEditing={() => {
+              changeHeightOjInput(350);
             }}
-
-            onBlur={() =>{
-              props.changeHeightOjInput(350);
+            onBlur={() => {
+              changeHeightOjInput(350);
+              if (isOpenEmojiPicker === true) {
+                setIsOpenEmojiPicker(!isOpenEmojiPicker);
+              }
             }}
           />
         </View>
 
-        <Pressable style={styles.buttonContainer}>
+        <Pressable onPress={sendComment} style={styles.buttonContainer}>
           {message ? (
             <Ionicons name="send" color="white" size={20} />
           ) : (

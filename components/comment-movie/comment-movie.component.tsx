@@ -3,7 +3,11 @@ import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
-  Image, StyleSheet, Text, View
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 import { mainColor } from "../../constants/config";
 import { CommonService } from "../../services/common.service";
@@ -11,20 +15,35 @@ import { FireStoreService } from "../../services/firestore.service";
 
 const CommentMovieComponent = ({ movieId }: any) => {
   const [listComments, setlistComments] = useState<any>([]);
+  const [loadingComment, setLoadingComment] = useState(false);
 
   useEffect(() => {
+    setLoadingComment(true);
     const subscriber = FireStoreService.getMovieComment(movieId).onSnapshot(
       (documentSnapshot) => {
         const newArrayList: FirebaseFirestoreTypes.DocumentData[] = [];
+        setLoadingComment(false);
         documentSnapshot.forEach((item) => {
           if (!item.data()) return;
-          newArrayList.push(item.data());
+          if(item.data().film_id === movieId) {
+            const commentDataWithId = {
+              ...item.data(),
+              id: item.id,
+            };
+            newArrayList.push(commentDataWithId);
+          }
         });
         setlistComments(newArrayList);
       }
     );
-    return () => subscriber();
+    
   }, []);
+
+  const likeComment = (id: string, comment_like_count: number) => {
+    FireStoreService.likeComment(id, comment_like_count).then(() => {
+      console.log("Update like comment");
+    });
+  };
 
   const MovieCommentItem = ({ item }: any) => {
     return (
@@ -32,16 +51,26 @@ const CommentMovieComponent = ({ movieId }: any) => {
         <Image style={style.avatar_user} source={{ uri: item.user_avatar }} />
         <View style={style.comment}>
           <Text style={style.user_name}>{item.user_name}</Text>
-          <Text style={style.created_at}>{CommonService.convertTimestamp(item.created_at)}</Text>
+          <Text style={style.created_at}>
+            {CommonService.convertTimestamp(item.created_at)}
+          </Text>
           <Text style={style.comment_title}>{item.comment_title}</Text>
-          <View style={style.user_reaction}>
-            <Entypo name="heart-outlined" size={24} color="#FF6363" />
-            <Text style={style.like_number}>{item.comment_like_count}</Text>
-          </View>
+          <Pressable
+            onPress={() => likeComment(item.id, item.comment_like_count)}
+          >
+            <View style={style.user_reaction}>
+              <Entypo name="heart" size={24} color="#FF6363" />
+              <Text style={style.like_number}>{item.comment_like_count}</Text>
+            </View>
+          </Pressable>
         </View>
       </View>
     );
   };
+
+  if(loadingComment){
+    return null;
+  }
 
   return listComments && listComments.length > 0 ? (
     <FlatList
@@ -50,7 +79,11 @@ const CommentMovieComponent = ({ movieId }: any) => {
       keyExtractor={(item, index) => index.toString()}
       renderItem={({ item }: any) => <MovieCommentItem item={item} />}
     />
-  ) : null;
+  ) : (
+    <View>
+      <Text style={style.no_comment_text}>There is no comment here, comment something for fun.</Text>
+    </View>
+  );
 };
 
 export default CommentMovieComponent;
@@ -64,8 +97,9 @@ const style = StyleSheet.create({
     paddingLeft: 10,
     flex: 1,
     flexDirection: "row",
-    paddingBottom: 20,
+    paddingBottom: 10,
     paddingTop: 10,
+    width: '80%'
   },
   avatar_user: {
     height: 30,
@@ -92,6 +126,12 @@ const style = StyleSheet.create({
   },
   like_number: {
     color: "white",
-    paddingLeft: 8,
+    paddingLeft: 5,
   },
+  no_comment_text: {
+    color: 'white',
+    position: 'relative',
+    textAlign: 'center',
+    top: 30
+  }
 });

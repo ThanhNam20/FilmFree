@@ -1,10 +1,11 @@
 
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { LOCAL_STORAGE } from '../constants/config';
 import { AsyncStorageService } from '../services/storage.service';
 import { RootState } from '../store/store';
+import { setUserInfo } from '../store/user/userSlice';
 
 
 export const withAuth = (
@@ -13,36 +14,17 @@ export const withAuth = (
   function ComponentWithAuth(props: any) {
     const user = useSelector((state: RootState) => state.UserReducer);
     const navigation = useNavigation();
-
+    const dispatch = useDispatch();
     useEffect(() => {
-      // const token = storageService.getLocal('token');
-      // if (!token && !user._id) router.push('/login');
-      // else if (!token && user._id) storageService.removeLocal('token');
-      // else if (token && user._id && roles.length && !roles.includes(user.role))
-      //   router.push('/401');
       getUserData();
-      
-    }, [user]);
+    }, [user.userInfo]);
 
     const getUserData = async () => {
       const user_data = await AsyncStorageService.getItem(
         LOCAL_STORAGE.USER_INFO
       );
-      if(!user_data) {
-        navigation.navigate('Login');
-      }
+      if (!user_data) return;
+      dispatch(setUserInfo(user_data));
     };
-
-    // const checkAuth = () => {
-    //   if (user._id) {
-    //     if (!roles.length) return true;
-
-    //     if (roles.includes(user.role)) return true;
-    //   }
-    //   return false;
-    // };
-
-    // return checkAuth() && <Component {...props} router={router} user={user} />;
-
     return <Component {...props}/>;
 };

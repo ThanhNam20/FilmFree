@@ -8,7 +8,7 @@ import {
   Text,
   View,
 } from "react-native";
-import { SLIDER_HEIGHT } from "../../constants/config";
+import { forcusColor, SLIDER_HEIGHT } from "../../constants/config";
 import FilmCategory from "../category-film";
 import CommentInputComponent from "../comment-movie";
 import CommentMovieComponent from "../comment-movie/comment-movie.component";
@@ -71,10 +71,37 @@ const TabNavigationMovieDetail = ({ movieData }: any) => {
     <SafeAreaView style={{}}>
       <View style={styles.buttonContainer}>
         <View style={styles.buttonStyle}>
-          <Button onPress={() => changeComponentShow(1)} title="Button 1" />
+          <Button
+            color={"transparent"}
+            onPress={() => changeComponentShow(1)}
+            title="Movie Info"
+          />
+          {componentShow == 1 ? (
+            <View
+              style={{
+                height: 1,
+                borderWidth: 1,
+                borderColor: forcusColor,
+              }}
+            ></View>
+          ) : null}
         </View>
         <View style={styles.buttonStyle}>
-          <Button onPress={() => changeComponentShow(2)} title="Button 2" />
+          <Button
+            color={"transparent"}
+            onPress={() => changeComponentShow(2)}
+            title="Comments"
+          />
+
+          {componentShow == 2 ? (
+            <View
+              style={{
+                height: 1,
+                borderWidth: 1,
+                borderColor: forcusColor,
+              }}
+            ></View>
+          ) : null}
         </View>
       </View>
       {componentShow == 1 ? (
@@ -94,7 +121,9 @@ const TabNavigationMovieDetail = ({ movieData }: any) => {
           >
             <CommentMovieComponent movieId={movieDetailData.data.id} />
           </View>
-          <CommentInputComponent changeHeightOjInput={ChangeHeightOjInput} />
+          <CommentInputComponent
+            props={[ChangeHeightOjInput, movieDetailParams.id]}
+          />
         </View>
       )}
     </SafeAreaView>
@@ -111,5 +140,8 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     width: "50%",
+  },
+  button: {
+    backgroundColor: "transparent",
   },
 });

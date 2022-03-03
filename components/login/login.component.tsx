@@ -20,7 +20,7 @@ const LoginComponent = () => {
     const user_sign_in = auth().signInWithCredential(googleCredential);
     user_sign_in
       .then(async (user_info) => {
-        dispatch(setUserInfo(user_info));
+        dispatch(setUserInfo(user_info.user));
         AsyncStorageService.setItem(user_info.user, LOCAL_STORAGE.USER_INFO);
         navigation.navigate('Root');
       })
