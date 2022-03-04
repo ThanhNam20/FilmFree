@@ -15,17 +15,16 @@ import { FireStoreService } from "../../services/firestore.service";
 
 const CommentMovieComponent = ({ movieId }: any) => {
   const [listComments, setlistComments] = useState<any>([]);
-  const [loadingComment, setLoadingComment] = useState(false);
+  const [loadingComment, setLoadingComment] = useState<boolean>(true);
 
   useEffect(() => {
     setLoadingComment(true);
     const subscriber = FireStoreService.getMovieComment(movieId).onSnapshot(
       (documentSnapshot) => {
         const newArrayList: FirebaseFirestoreTypes.DocumentData[] = [];
-        setLoadingComment(false);
         documentSnapshot.forEach((item) => {
           if (!item.data()) return;
-          if(item.data().film_id === movieId) {
+          if (item.data().film_id === movieId) {
             const commentDataWithId = {
               ...item.data(),
               id: item.id,
@@ -34,9 +33,10 @@ const CommentMovieComponent = ({ movieId }: any) => {
           }
         });
         setlistComments(newArrayList);
+        setLoadingComment(false);
       }
     );
-    
+    return () => subscriber();
   }, []);
 
   const likeComment = (id: string, comment_like_count: number) => {
@@ -68,22 +68,20 @@ const CommentMovieComponent = ({ movieId }: any) => {
     );
   };
 
-  if(loadingComment){
-    return null;
-  }
-
-  return listComments && listComments.length > 0 ? (
+  return (listComments && listComments.length === 0 && loadingComment === false) ? (
+    <View>
+      <Text style={style.no_comment_text}>
+        There is no comment here, comment something for fun.
+      </Text>
+    </View>
+  ) : (listComments && listComments.length > 0 && loadingComment === false) ? (
     <FlatList
       style={style.list_item}
       data={listComments}
       keyExtractor={(item, index) => index.toString()}
       renderItem={({ item }: any) => <MovieCommentItem item={item} />}
     />
-  ) : (
-    <View>
-      <Text style={style.no_comment_text}>There is no comment here, comment something for fun.</Text>
-    </View>
-  );
+  ) : null;
 };
 
 export default CommentMovieComponent;
@@ -99,7 +97,7 @@ const style = StyleSheet.create({
     flexDirection: "row",
     paddingBottom: 10,
     paddingTop: 10,
-    width: '80%'
+    width: "80%",
   },
   avatar_user: {
     height: 30,
@@ -129,9 +127,9 @@ const style = StyleSheet.create({
     paddingLeft: 5,
   },
   no_comment_text: {
-    color: 'white',
-    position: 'relative',
-    textAlign: 'center',
-    top: 30
-  }
+    color: "white",
+    position: "relative",
+    textAlign: "center",
+    top: 30,
+  },
 });

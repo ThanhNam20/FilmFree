@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import EmojiSelector, { Categories } from "react-native-emoji-selector";
 import { useSelector } from "react-redux";
-import { forcusColor, mainColor } from "../../constants/config";
+import { forcusColor, mainColor, SLIDER_HEIGHT } from "../../constants/config";
 import MovieCommentModel from "../../model/movie-comment.model";
 import { FireStoreService } from "../../services/firestore.service";
 import { RootState } from "../../store/store";
@@ -67,15 +67,21 @@ const CommentInputComponent = ({ props }: any) => {
     setMessage("");
     Keyboard.dismiss();
     changeHeightOjInput(350);
-    setIsOpenEmojiPicker(!isOpenEmojiPicker);
+    setIsOpenEmojiPicker(false);
     FireStoreService.addMovieComment(commentUser).then(() => {
       showToastWithGravityAndOffset();
     });
   };
 
-  if (userReducer == null) {
+  if (userReducer === null) {
     return (
-      <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
         <Text style={{ textAlign: "center", color: "white" }}>
           You can't post comment without Login ?
         </Text>
@@ -83,9 +89,10 @@ const CommentInputComponent = ({ props }: any) => {
           <Text
             style={{
               color: forcusColor,
-              paddingLeft: 5
+              paddingLeft: 5,
             }}
-          >Login
+          >
+            Login
           </Text>
         </Pressable>
       </View>
@@ -107,7 +114,7 @@ const CommentInputComponent = ({ props }: any) => {
                 changeHeightOjInput(150);
               } else {
                 Keyboard.dismiss();
-                changeHeightOjInput(350);
+                changeHeightOjInput(SLIDER_HEIGHT / 2);
               }
               setIsOpenEmojiPicker(!isOpenEmojiPicker);
             }}
@@ -126,13 +133,14 @@ const CommentInputComponent = ({ props }: any) => {
             placeholder="Enter message..."
             onChangeText={setMessage}
             onFocus={() => {
-              changeHeightOjInput(75);
+              changeHeightOjInput(SLIDER_HEIGHT / 8 - 10);
+              setIsOpenEmojiPicker(false);
             }}
             onSubmitEditing={() => {
-              changeHeightOjInput(350);
+              changeHeightOjInput(SLIDER_HEIGHT / 2);
             }}
             onBlur={() => {
-              changeHeightOjInput(350);
+              changeHeightOjInput(SLIDER_HEIGHT / 2);
               if (isOpenEmojiPicker === true) {
                 setIsOpenEmojiPicker(!isOpenEmojiPicker);
               }

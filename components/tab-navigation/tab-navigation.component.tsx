@@ -18,7 +18,7 @@ import MovieDescriptionComponent from "../movie-description";
 const TabNavigationMovieDetail = ({ movieData }: any) => {
   const [movieDetailData, movieDetailParams] = movieData;
   const [componentShow, setComponentShow] = useState(1);
-  const [heightOfInput, setHeightOjInput] = useState(350);
+  const [heightOfInput, setHeightOjInput] = useState(SLIDER_HEIGHT / 2);
 
   const ChangeHeightOjInput = (densityPixel: number) => {
     setHeightOjInput(densityPixel);
@@ -107,7 +107,7 @@ const TabNavigationMovieDetail = ({ movieData }: any) => {
       {componentShow == 1 ? (
         <View
           style={{
-            height: 380,
+            height: SLIDER_HEIGHT / 1.6 - 20,
           }}
         >
           <LikeListMovie />

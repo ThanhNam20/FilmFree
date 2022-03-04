@@ -51,6 +51,7 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
         videoMediaUrlList[0].currentDefinition || ""
       );
     }
+    setPaused(true);
   }, [loadingMovieUrl]);
 
   const onSeek = (seek: any) => {
@@ -157,7 +158,7 @@ const VideoPlayComponent = ({ movieDetailData }: any) => {
             onSeeking={onSeeking}
             mainColor={"#1572A1"}
             onFullScreen={onFullScreen}
-            fadeOutDelay={5000}
+            fadeOutDelay={10000}
             playerState={playerState}
             sliderStyle={
               isFullScreen
