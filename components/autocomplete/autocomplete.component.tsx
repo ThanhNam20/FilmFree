@@ -1,22 +1,19 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  FlatList,
-  Image,
-  Pressable,
-} from "react-native";
-import React, { createRef, useState } from "react";
-import { useSearchMovieCompleteMutation } from "../../services/public-api.service";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
-import DelayInput from "react-native-debounce-input";
 import { useNavigation } from "@react-navigation/native";
+import React, { createRef, useState } from "react";
+import {
+  FlatList, Pressable, Text, View
+} from "react-native";
+import DelayInput from "react-native-debounce-input";
+import { useDispatch, useSelector } from "react-redux";
+import { useSearchMovieCompleteMutation } from "../../services/public-api.service";
+import { removeMovieDetailData } from "../../store/film/filmSlice";
+import { RootState } from "../../store/store";
 import { autoCompleteSearchStyle } from "./autocomplete.style";
 
 const SearchAutoComplete = () => {
   const [searchValue, setSearchValue] = useState("");
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const [searchMovieAutocomplete, { data, isLoading, error }] =
     useSearchMovieCompleteMutation();
@@ -35,6 +32,7 @@ const SearchAutoComplete = () => {
   };
 
   const getMovieDetail = (item: any) => {
+    dispatch(removeMovieDetailData());
     navigation.navigate("MovieDetail", {
       id: item.id,
       category: item.domainType,

@@ -17,7 +17,7 @@ export const withAuth = (
     const dispatch = useDispatch();
     useEffect(() => {
       getUserData();
-    }, [user.userInfo]);
+    }, []);
 
     const getUserData = async () => {
       const user_data = await AsyncStorageService.getItem(

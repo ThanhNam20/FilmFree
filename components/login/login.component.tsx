@@ -7,6 +7,8 @@ import { setUserInfo } from "../../store/user/userSlice";
 import { AsyncStorageService } from "../../services/storage.service";
 import { LOCAL_STORAGE } from "../../constants/config";
 import { useNavigation } from "@react-navigation/native";
+import { FireStoreService } from "../../services/firestore.service";
+import UserInfoModel from "../../model/user-info.model";
 
 const LoginComponent = () => {
   const dispatch = useDispatch();
@@ -19,8 +21,21 @@ const LoginComponent = () => {
     // Sign-in the user with the credential
     const user_sign_in = auth().signInWithCredential(googleCredential);
     user_sign_in
-      .then(async (user_info) => {
+      .then(async (user_info: any) => {
         dispatch(setUserInfo(user_info.user));
+        const userInfoSaveStore: UserInfoModel = {
+          uid: user_info.user.uid,
+          user_avatar: user_info.user.photoURL,
+          user_name: user_info.user.displayName,
+          user_email: user_info.user.email
+        }
+
+        FireStoreService.findUserByUid(user_info.user.uid).get().then((firebaseData: any) =>{
+          if(firebaseData.empty !== false) {
+            FireStoreService.setUserInfo(userInfoSaveStore);
+          }
+        })
+
         AsyncStorageService.setItem(user_info.user, LOCAL_STORAGE.USER_INFO);
         navigation.goBack();
       })

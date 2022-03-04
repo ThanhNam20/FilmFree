@@ -1,5 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 import MovieCommentModel from '../model/movie-comment.model';
+import UserInfoModel from '../model/user-info.model';
 
 const getMovieComment = (movieId: string) => {
   return firestore().collection('user_comments').orderBy('created_at', 'desc');
@@ -17,4 +18,12 @@ const likeComment = (comment_id: string, previous_like: number) => {
     })
 }
 
-export const FireStoreService = { getMovieComment, addMovieComment, likeComment };
+const findUserByUid = (uid: string) =>{
+  return firestore().collection('users').where('uid', '==', uid);
+}
+
+const setUserInfo = (user_info: UserInfoModel ) =>{
+  return firestore().collection('users').add(user_info);
+}
+
+export const FireStoreService = { getMovieComment, addMovieComment, likeComment, setUserInfo, findUserByUid };
